@@ -26,17 +26,18 @@ var fight = function(enemyName) {
             //alert of skip
             window.alert(playerName + " has chosen not to fight!");
             //subtract money
-            playerMoney = playerMoney - 10;
+            playerMoney = Math.max(0, playerMoney - 10);
             console.log("player", playerMoney);
             break;
             }
         }
 
             // Subtract the value of 'playerAttack' from the value of `enemyHealth` and use that result to update the `enemyHealth` var
-        enemyHealth = enemyHealth - playerAttack;
+        var damage = randomNumber(playerAttack - 3, playerAttack);
+            enemyHealth = Math.max(0, enemyHealth - damage);
             // Log a resulting message to the console so we know it worked.
         console.log(
-            playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
+            playerName + " attacked " + enemyName + " for " + damage + ". " + enemyName + " now has " + enemyHealth + " health remaining."
         );
         
             // enemyHealth check
@@ -45,11 +46,12 @@ var fight = function(enemyName) {
             break;
         }
         else {
-            window.alert(enemyName + " still has " + enemyHealth + " health left");
+            window.alert("you attacked " + enemyName + " for " + damage + ". \n" + enemyName + " still has " + enemyHealth + " health left.");
         }
 
             // Subtract the value of `enemyAttack` from the value of `playerHealth` and use that result to update `playerHealth` values
-        playerHealth = playerHealth - enemyAttack;
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+            playerHealth = Math.max(0, playerHealth - damage);
             // Log a resulting message to console so we know it worked.
         console.log(
             enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
@@ -61,7 +63,7 @@ var fight = function(enemyName) {
             break;
             }
         else {
-            window.alert(playerName + " still has " + playerHealth + " health left.");
+            window.alert(enemyName + " attacked you for: " + damage + ". \n" + playerName + " still has " + playerHealth + " health left.");
         }
            
     
@@ -82,7 +84,7 @@ var startgame = function () {
      
             var pickedEnemyName = enemyNames[i];
 
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
 
             fight(pickedEnemyName);
 
@@ -162,5 +164,11 @@ var shop = function() {
             break;
     }
 };
+
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
+}
 
 startgame();
