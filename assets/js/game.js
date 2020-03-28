@@ -51,9 +51,8 @@ var startgame = function () {
 
     //game end
     for(var i = 0; i < enemyInfo.length; i++) {
-        window.alert("welcome to Robot Gladiators! Round: " + ( i + 1 ));
         if(playerInfo.health > 0) {
-
+            window.alert("welcome to Robot Gladiators! Round: " + ( i + 1 ));
             var pickedEnemyObj = enemyInfo[i];
 
             pickedEnemyObj.health = randomNumber(40, 60);
@@ -70,7 +69,6 @@ var startgame = function () {
             }
         }
         else {
-            window.alert("You have lost your robot in battle! Game Over");
             break;
         }
     }
@@ -97,37 +95,21 @@ var endGame = function() {
 //Shop
 var shop = function() {
     var shopOptionPrompt = window.prompt(
-        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice."
+        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? please enter 1 for REFILL, 2 for UPGRADE, or 3 for LEAVE."
     );
+    shopOptionPrompt = parseInt(shopOptionPrompt);
     switch (shopOptionPrompt) {
-        case "REFILL":
-        case "refill":
-            if (playerInfo.money >= 7) {
-                playerInfo.refillHealth();
-                break;
-            }
-            else {
-                window.alert("You don't have enough money!");
-            }
+        case 1:
+            playerInfo.refillHealth();
             break;
-        case "UPGRADE":
-        case "upgrade":
-            if (playerInfo.money >= 7) {
-                playerInfo.upgradeAttack();
-                break;
-            }
-            else {
-                window.alert("You don't have enough money");
-            }
+        case 2:
+            playerInfo.upgradeAttack();
             break;
-        case "LEAVE":
-        case "leave":
+        case 3:
             window.alert("Leaving the store.");
-
             break;
         default:
             window.alert("You did not pick a valid option. Try again");
-
             shop();
             break;
     }
