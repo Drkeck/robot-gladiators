@@ -2,24 +2,12 @@
 //function
 var fight = function(enemy) {
     console.log(enemy);
-    while(enemy.health > 0 && playerInfo.health > 0){
-        // the ask
-        var promptFight = window.prompt("would you like to FIGHT or SKIP this battle? enter 'FIGHT' or 'SKIP' to choose.");
-        console.log(promptFight);
-        //if
-        if (promptFight === "skip" || promptFight === "SKIP") {
-            //confirm skip?
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-            if (confirmSkip) {
-            //alert of skip
-            window.alert(playerInfo.name + " has chosen not to fight!");
-            //subtract money
-            playerInfo.money = Math.max(0, playerInfo.money - 10);
-            console.log("player", playerInfo.money);
+    while (enemy.health > 0 && playerInfo.health > 0){
+        if(fightOrSkip()) {
+            // if true, leave fight.
             break;
-            }
         }
-
+     
             // Subtract the value of 'playerInfo.attack' from the value of `enemy.health` and use that result to update the `enemy.health` var
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
             enemy.health = Math.max(0, enemy.health - damage);
@@ -53,8 +41,6 @@ var fight = function(enemy) {
         else {
             window.alert(enemy.name + " attacked you for: " + damage + ". \n" + playerInfo.name + " still has " + playerInfo.health + " health left.");
         }
-           
-    
     }
 }
 
@@ -66,7 +52,6 @@ var startgame = function () {
     //game end
     for(var i = 0; i < enemyInfo.length; i++) {
         window.alert("welcome to Robot Gladiators! Round: " + ( i + 1 ));
-        debugger;
         if(playerInfo.health > 0) {
 
             var pickedEnemyObj = enemyInfo[i];
@@ -152,7 +137,26 @@ var randomNumber = function(min, max) {
     var value = Math.floor(Math.random() * (max - min + 1) + min);
 
     return value;
-}
+};
+
+var fightOrSkip = function() {
+    var promptFight = window.prompt('would you like to FIGHT or SKIP this battle?');
+    if (promptFight === "" || promptFight === null) {
+        window.alert("You'll need to provide a valid answer, try again please");
+        return fightOrSkip();
+    }
+    promptFight = promptFight.toLowerCase();
+    if (promptFight === "skip") {
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?" + "\n -10 money penelty to your existing balance of: " + playerInfo.money);
+        if (confirmSkip) {
+            window.alert(playerInfo.name + " has skipped this fight.");
+            playerInfo.money =  Math.max(0, playerInfo.money - 10);
+            
+            return true;
+        }
+    }
+    return false;
+};
 
 var getPlayerName = function() {
     var name = "";
@@ -161,7 +165,7 @@ var getPlayerName = function() {
     }
     console.log("Your robot's name is " + name)
     return name;
-}
+};
 
 
 //player info obj
